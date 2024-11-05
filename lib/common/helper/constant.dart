@@ -485,10 +485,11 @@ class Constant {
 
   static const String kSetPrefToken = "token";
   static const String kSetPrefCentraToken = "centra_token";
+  static const String kSetPrefCompany = "company";
+  static const String kSetPrefCompanyId = "company_id";
   static const String kSetPrefId = "id";
   static const String kSetPrefFcmToken = "fcmToken";
   static const String kSetPrefName = "name";
-  static const String kSetPrefCompany = "company";
   static const String kSetPrefIsAdmin = "is_admin";
   static const String kSetPrefIsSuperAdmin = "is_super_admin";
   static const String kSetPrefEmail = "email";

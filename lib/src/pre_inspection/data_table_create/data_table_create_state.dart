@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class DataTableCreateState extends Equatable {
   final DateTime? selectedDate;
   final String? selectedTerminal;
+  final int? selectedTerminalId;
   final String? selectedTool;
   final int? selectedToolId;
   final bool isSubmitting;
@@ -12,6 +13,7 @@ class DataTableCreateState extends Equatable {
   const DataTableCreateState({
     this.selectedDate,
     this.selectedTerminal,
+    this.selectedTerminalId,
     this.selectedTool,
     this.selectedToolId,
     this.isSubmitting = false,
@@ -23,6 +25,7 @@ class DataTableCreateState extends Equatable {
     return const DataTableCreateState(
       selectedDate: null,
       selectedTerminal: null,
+      selectedTerminalId: null,
       selectedTool: null,
       selectedToolId: null,
       isSubmitting: false,
@@ -34,6 +37,7 @@ class DataTableCreateState extends Equatable {
   DataTableCreateState copyWith({
     DateTime? selectedDate,
     String? selectedTerminal,
+    int? selectedTerminalId,
     String? selectedTool,
     int? selectedToolId,
     bool? isSubmitting,
@@ -43,6 +47,7 @@ class DataTableCreateState extends Equatable {
     return DataTableCreateState(
       selectedDate: selectedDate ?? this.selectedDate,
       selectedTerminal: selectedTerminal ?? this.selectedTerminal,
+      selectedTerminalId: selectedTerminalId ?? this.selectedTerminalId,
       selectedTool: selectedTool ?? this.selectedTool,
       selectedToolId: selectedToolId ?? this.selectedToolId,
       isSubmitting: isSubmitting ?? this.isSubmitting,
@@ -55,6 +60,7 @@ class DataTableCreateState extends Equatable {
   List<Object?> get props => [
         selectedDate,
         selectedTerminal,
+        selectedTerminalId,
         selectedTool,
         selectedToolId,
         isSubmitting,

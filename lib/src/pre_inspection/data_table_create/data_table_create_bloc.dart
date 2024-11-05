@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigap_mobile/common/base/base_controller.dart';
+import 'package:sigap_mobile/common/helper/constant.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_event.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_state.dart';
 
@@ -17,6 +19,9 @@ class DataTableCreateBloc
       try {
         final response = await _getData('${event.id}');
         if (response.statusCode == 200) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          var terminalName = prefs.getString(Constant.kSetPrefCompany);
+          var terminalId = prefs.getInt(Constant.kSetPrefCompanyId);
           final data = jsonDecode(response.body);
           final result = SingleDataResponse.fromJson(data);
           final resultData = result.data;
@@ -24,7 +29,8 @@ class DataTableCreateBloc
               .parse(result.data?.dateDoc ?? '${DateTime.now()}');
           emit(state.copyWith(
             selectedDate: date,
-            selectedTerminal: resultData?.personilName,
+            selectedTerminal: terminalName,
+            selectedTerminalId: terminalId,
             selectedTool: resultData?.assetName,
             selectedToolId: resultData?.assetId,
           ));

@@ -39,7 +39,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
         foregroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          'Index Pre Inspection List',
+          'Input Pre Inspection List',
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
@@ -96,6 +96,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
               dateTimeC.text =
                   Utils.convertDateddMMMMyyyy(state.selectedDate.toString());
               toolC.text = state.selectedTool ?? '';
+              terminalC.text = state.selectedTerminal ?? '';
             }
 
             if (state.isFailure)
