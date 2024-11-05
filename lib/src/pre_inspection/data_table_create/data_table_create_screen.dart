@@ -92,8 +92,12 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
         appBar: appBar(),
         body: BlocListener<DataTableCreateBloc, DataTableCreateState>(
           listener: (context, state) {
-            if (state.selectedToolId != null)
-            
+            if (state.selectedToolId != null) {
+              dateTimeC.text =
+                  Utils.convertDateddMMMMyyyy(state.selectedDate.toString());
+              toolC.text = state.selectedTool ?? '';
+            }
+
             if (state.isFailure)
               Utils.showFailed(msg: "Submit failed. Please try again.");
             if (state.isSuccess) {
@@ -107,6 +111,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
             builder: (context, state) {
               return SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.fromLTRB(16, 16, 16, 12),
@@ -118,62 +123,163 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                       ),
                     ),
                     Constant.xSizedBox16,
-                    Text('Tanggal Pre Inspection *',
-                        style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    GestureDetector(
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2101),
-                        );
-                        if (pickedDate != null) {
-                          context
-                              .read<DataTableCreateBloc>()
-                              .add(DateSelected(pickedDate));
-                        }
-                      },
-                      child: TextField(
-                        controller: dateTimeC,
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Pilih Tanggal',
-                          border: OutlineInputBorder(),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                children: [
+                                  TextSpan(text: 'Tanggal Pre Inspection '),
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(color: Colors.red)),
+                                ],
+                                style: TextStyle(
+                                    fontSize: 12, color: Constant.grayColor)),
+                          ),
+                          SizedBox(height: 8),
+                          GestureDetector(
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101),
+                              );
+                              if (pickedDate != null) {
+                                context
+                                    .read<DataTableCreateBloc>()
+                                    .add(DateSelected(pickedDate));
+                              }
+                            },
+                            child: TextField(
+                              controller: dateTimeC,
+                              onChanged: (value) {
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10),
+                                hintText: 'Pilih Tanggal',
+                                hintStyle: TextStyle(color: Color(0xffB9B9B9)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      BorderSide(color: Color(0xffB9B9B9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      BorderSide(color: Color(0xffB9B9B9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      BorderSide(color: Constant.primaryColor),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 16),
-                    Text('Terminal *', style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    TextField(
-                      controller: terminalC,
-                      onChanged: (value) {
-                        context
-                            .read<DataTableCreateBloc>()
-                            .add(TerminalSelected(value));
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Pilih Terminal',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                children: [
+                                  TextSpan(text: 'Terminal '),
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(color: Colors.red)),
+                                ],
+                                style: TextStyle(
+                                    fontSize: 12, color: Constant.grayColor)),
+                          ),
+                          SizedBox(height: 8),
+                          TextField(
+                            controller: terminalC,
+                            onChanged: (value) {
+                              context
+                                  .read<DataTableCreateBloc>()
+                                  .add(TerminalSelected(value));
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(10),
+                              hintText: 'Pilih Terminal',
+                              hintStyle: TextStyle(color: Color(0xffB9B9B9)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide:
+                                    BorderSide(color: Color(0xffB9B9B9)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide:
+                                    BorderSide(color: Color(0xffB9B9B9)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide:
+                                    BorderSide(color: Constant.primaryColor),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 16),
-                    Text('Alat *', style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    TextField(
-                      controller: toolC,
-                      onChanged: (value) {
-                        context
-                            .read<DataTableCreateBloc>()
-                            .add(ToolSelected(value));
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Pilih Alat',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                children: [
+                                  TextSpan(text: 'Alat '),
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(color: Colors.red)),
+                                ],
+                                style: TextStyle(
+                                    fontSize: 12, color: Constant.grayColor)),
+                          ),
+                          SizedBox(height: 8),
+                          TextField(
+                            controller: toolC,
+                            onChanged: (value) {
+                              context
+                                  .read<DataTableCreateBloc>()
+                                  .add(ToolSelected(value));
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(10),
+                              hintText: 'Pilih Alat',
+                              hintStyle: TextStyle(color: Color(0xffB9B9B9)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide:
+                                    BorderSide(color: Color(0xffB9B9B9)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide:
+                                    BorderSide(color: Color(0xffB9B9B9)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide:
+                                    BorderSide(color: Constant.primaryColor),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

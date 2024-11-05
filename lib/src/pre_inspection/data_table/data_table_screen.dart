@@ -153,7 +153,9 @@ class _DataTableScreenState extends State<DataTableScreen> {
                               TableRowInkWell(
                                 onTap: () {
                                   CusNav.nPush(
-                                      context, DataTableCreateScreen(isEdit: true, ));
+                                      context,
+                                      DataTableCreateScreen(
+                                          isEdit: true, data: item));
                                 },
                                 child: Padding(
                                   padding:
