@@ -171,7 +171,12 @@ class _DataTableScreenState extends State<DataTableScreen> {
                                 ),
                               ),
                               TableRowInkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  CusNav.nPush(
+                                      context,
+                                      DataTableCreateScreen(
+                                          isEdit: true, data: item));
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
@@ -185,7 +190,12 @@ class _DataTableScreenState extends State<DataTableScreen> {
                                 ),
                               ),
                               TableRowInkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  CusNav.nPush(
+                                      context,
+                                      DataTableCreateScreen(
+                                          isEdit: true, data: item));
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
@@ -199,7 +209,12 @@ class _DataTableScreenState extends State<DataTableScreen> {
                                 ),
                               ),
                               TableRowInkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  CusNav.nPush(
+                                      context,
+                                      DataTableCreateScreen(
+                                          isEdit: true, data: item));
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
@@ -213,7 +228,12 @@ class _DataTableScreenState extends State<DataTableScreen> {
                                 ),
                               ),
                               TableRowInkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  CusNav.nPush(
+                                      context,
+                                      DataTableCreateScreen(
+                                          isEdit: true, data: item));
+                                },
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.only(top: 8, right: 8),
@@ -244,20 +264,25 @@ class _DataTableScreenState extends State<DataTableScreen> {
     }
 
     Widget addButton() {
-      return Container(
-        padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
-        color: Colors.white,
+      return InkWell(
+        onTap: () {
+          CusNav.nPush(context, DataTableCreateScreen());
+        },
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Constant.primaryColor,
-          ),
-          padding: EdgeInsets.all(16),
-          child: Text(
-            'Tambah Data',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
+          color: Colors.white,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Constant.primaryColor,
+            ),
+            padding: EdgeInsets.all(16),
+            child: Text(
+              'Tambah Data',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
         ),

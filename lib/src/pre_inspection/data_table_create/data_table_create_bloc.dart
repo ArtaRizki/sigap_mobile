@@ -15,6 +15,19 @@ import 'package:sigap_mobile/src/pre_inspection/single_data_response.dart';
 class DataTableCreateBloc
     extends Bloc<DataTableCreateEvent, DataTableCreateState> {
   DataTableCreateBloc() : super(DataTableCreateState.initial()) {
+    on<InitForm>((event, emit) async {
+      try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var terminalName = prefs.getString(Constant.kSetPrefCompany);
+        var terminalId = prefs.getInt(Constant.kSetPrefCompanyId);
+        emit(state.copyWith(
+          selectedTerminal: terminalName,
+          selectedTerminalId: terminalId,
+        ));
+      } catch (_) {
+        emit(state.copyWith(isFailure: true, isSubmitting: false));
+      }
+    });
     on<InitEditForm>((event, emit) async {
       try {
         final response = await _getData('${event.id}');
@@ -50,7 +63,8 @@ class DataTableCreateBloc
     });
 
     on<ToolSelected>((event, emit) {
-      emit(state.copyWith(selectedTool: event.tool));
+      emit(state.copyWith(
+          selectedTool: event.tool.name, selectedToolId: event.tool.id));
     });
 
     on<SubmitForm>((event, emit) async {

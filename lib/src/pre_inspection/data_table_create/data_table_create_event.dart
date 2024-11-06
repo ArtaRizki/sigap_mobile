@@ -1,9 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_response.dart';
 
 abstract class DataTableCreateEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class InitForm extends DataTableCreateEvent {}
 
 class InitEditForm extends DataTableCreateEvent {
   final int id;
@@ -35,7 +38,7 @@ class TerminalSelected extends DataTableCreateEvent {
 }
 
 class ToolSelected extends DataTableCreateEvent {
-  final String tool;
+  final AssetResponseData tool;
 
   ToolSelected(this.tool);
 
