@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sigap_mobile/common/helper/constant.dart';
+import 'package:sigap_mobile/generated/assets.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_search_bloc.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_search_event.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_search_state.dart';
@@ -43,26 +45,37 @@ class _AssetSearchSheetState extends State<AssetSearchSheet> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Cari Alat",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
+            Constant.xSizedBox8,
+            InkWell(
+              onTap: () => Navigator.of(context).pop(),
+              child: Icon(
+                Icons.close,
+                color: Colors.black,
+              ),
             ),
+            Constant.xSizedBox16,
             TextField(
               controller: _textEditingController,
               decoration: InputDecoration(
-                labelText: 'Cari Alat',
-                prefixIcon: Icon(Icons.search),
+                suffixIcon: Image.asset(Assets.iconsIcSearch),
+                contentPadding: EdgeInsets.all(10),
+                hintText: 'Cari Alat',
+                hintStyle: TextStyle(color: Color(0xffB9B9B9)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  borderSide: BorderSide(color: Color(0xffB9B9B9)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  borderSide: BorderSide(color: Color(0xffB9B9B9)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  borderSide: BorderSide(color: Constant.primaryColor),
+                ),
               ),
               onChanged: (value) {
                 widget.bloc.add(FetchAssetSearch(search: value));
@@ -83,9 +96,24 @@ class _AssetSearchSheetState extends State<AssetSearchSheet> {
                         if (index < state.assets.length) {
                           final asset = state.assets[index];
                           return ListTile(
-                            title: Text(asset?.name ?? ''),
-                            subtitle: Text(asset?.code ?? ''),
-                            trailing: Text(asset?.jenisAssetCode ?? ''),
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              asset?.code ?? '',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            subtitle: Text(asset?.name ?? ''),
+                            trailing: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: Color(0xffdddce6)),
+                              child: Text(
+                                asset?.jenisAssetCode ?? '',
+                                style: TextStyle(
+                                    fontSize: 12, color: Color(0xff191654)),
+                              ),
+                            ),
                             onTap: () {
                               Navigator.of(context)
                                   .pop(asset); // Return the selected asset
