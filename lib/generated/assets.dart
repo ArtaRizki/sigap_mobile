@@ -9,9 +9,11 @@ class Assets {
   static const String fontsSourceSansProRegular = 'assets/fonts/SourceSansPro-Regular.ttf';
   static const String fontsSourceSansProSemibold = 'assets/fonts/SourceSansPro-Semibold.ttf';
   static const String iconsIcCalendar = 'assets/icons/ic-calendar.png';
+  static const String iconsIcClose = 'assets/icons/ic-close.png';
   static const String iconsIcFilter = 'assets/icons/ic-filter.png';
   static const String iconsIcInspection = 'assets/icons/ic-inspection.png';
   static const String iconsIcLogout = 'assets/icons/ic-logout.png';
+  static const String iconsIcNotes = 'assets/icons/ic-notes.png';
   static const String iconsIcPassword = 'assets/icons/ic-password.png';
   static const String iconsIcPreInspectionList = 'assets/icons/ic-pre-inspection-list.png';
   static const String iconsIcSearch = 'assets/icons/ic-search.png';

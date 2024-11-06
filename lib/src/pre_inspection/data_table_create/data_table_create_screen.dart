@@ -8,6 +8,7 @@ import 'package:sigap_mobile/common/component/custom_navigator.dart';
 import 'package:sigap_mobile/common/helper/constant.dart';
 import 'package:sigap_mobile/generated/assets.dart';
 import 'package:sigap_mobile/src/home/home_screen.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_checklist/data_checklist_screen.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table/data_table_response.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table/data_table_state.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_response.dart';
@@ -58,7 +59,10 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
     Widget addButton() {
       if (widget.isEdit) return SizedBox();
       return InkWell(
-        onTap: () async {},
+        onTap: () async {
+          //sementara
+          CusNav.nPush(context, DataChecklistScreen());
+        },
         child: Container(
           padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
           color: Colors.white,

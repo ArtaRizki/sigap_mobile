@@ -27,8 +27,7 @@ class Constant {
   ///
   static Color primaryColor = Color(0xFF191654);
   static Color secondaryColor = Color(0xFF43C6AC);
-  static Color thirdColor = Color(0xFFFBBB00);
-  static Color tertiaryColor = Color(0xFF8CC6FF);
+  static Color tertiaryColor = Color(0xFFFC0D2F4);
   static Color quarteryColor = Color(0xFFC5E2FF);
   static Color tableBlueColor = Color(0xFFE9F0FF);
   static Color tableGrayColor = Color(0xFFFAFAFA);

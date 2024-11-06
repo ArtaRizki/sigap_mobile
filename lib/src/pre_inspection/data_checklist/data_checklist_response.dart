@@ -12,7 +12,9 @@ class DataChecklistResponseData {
   "type": "MKN",
   "number": 1,
   "category_local": "GSU",
-  "status": 1
+  "status": 1,
+  "filename": "",
+  "reason": ""
 } 
 */
 
@@ -25,6 +27,8 @@ class DataChecklistResponseData {
   int? number;
   String? categoryLocal;
   int? status;
+  String? filename;
+  String? reason;
 
   DataChecklistResponseData({
     this.id,
@@ -36,6 +40,8 @@ class DataChecklistResponseData {
     this.number,
     this.categoryLocal,
     this.status,
+    this.filename,
+    this.reason,
   });
   DataChecklistResponseData.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toInt();
@@ -47,6 +53,8 @@ class DataChecklistResponseData {
     number = json['number']?.toInt();
     categoryLocal = json['category_local']?.toString();
     status = json['status']?.toInt();
+    filename = json['filename']?.toString();
+    reason = json['reason']?.toString();
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -59,6 +67,8 @@ class DataChecklistResponseData {
     data['number'] = number;
     data['category_local'] = categoryLocal;
     data['status'] = status;
+    data['filename'] = filename;
+    data['reason'] = reason;
     return data;
   }
 }
@@ -67,7 +77,7 @@ class DataChecklistResponse {
 /*
 {
   "status": "S",
-  "message": null,
+  "message": "null",
   "data": [
     {
       "id": 332,
@@ -78,7 +88,9 @@ class DataChecklistResponse {
       "type": "MKN",
       "number": 1,
       "category_local": "GSU",
-      "status": 1
+      "status": 1,
+      "filename": "",
+      "reason": ""
     }
   ]
 } 
