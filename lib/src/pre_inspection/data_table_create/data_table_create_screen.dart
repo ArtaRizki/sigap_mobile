@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sigap_mobile/common/component/custom_navigator.dart';
 import 'package:sigap_mobile/common/helper/constant.dart';
 import 'package:sigap_mobile/generated/assets.dart';
@@ -17,6 +18,7 @@ import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/a
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_search_state.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_bloc.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_event.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_param.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_state.dart';
 import 'package:sigap_mobile/utils/utils.dart';
 
@@ -56,31 +58,52 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
       );
     }
 
-    Widget addButton() {
+    Widget nextButton() {
       if (widget.isEdit) return SizedBox();
-      return InkWell(
-        onTap: () async {
-          //sementara
-          CusNav.nPush(context, DataChecklistScreen());
-        },
-        child: Container(
-          padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
-          color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Constant.primaryColor,
-            ),
-            padding: EdgeInsets.all(16),
-            child: Text(
-              'Selanjutnya',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
+      return BlocBuilder<DataTableCreateBloc, DataTableCreateState>(
+        builder: (context, state) {
+          return InkWell(
+            onTap: () async {
+              log("SELECTED TOOL : ${state.selectedTool}");
+              if (state.selectedDate != null && state.selectedToolId != null) {
+                final bloc = context.read<DataTableCreateBloc>();
+                var data = DataTableCreateParam(
+                  assetId: state.selectedToolId,
+                  assetCategoryCode: 'GSU',
+                  dateDoc: DateFormat("yyyy-MM-dd HH:mm:ss")
+                      .format(state.selectedDate ?? DateTime.now())
+                      .toString(),
+                  docType: 'OPR',
+                );
+                bloc.add(SubmitForm(data));
+                //sementara
+                CusNav.nPush(
+                    context, DataChecklistScreen(dataTableCreateParam: data));
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
+              color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color:
+                      state.selectedDate != null && state.selectedToolId != null
+                          ? Constant.primaryColor
+                          : Constant.grayColor,
+                ),
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Selanjutnya',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       );
     }
 
@@ -130,7 +153,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Submit Successful')),
               );
-              CusNav.nPushReplace(context, HomeScreen());
+              // CusNav.nPushReplace(context, HomeScreen());
             }
           },
           child: BlocBuilder<DataTableCreateBloc, DataTableCreateState>(
@@ -345,7 +368,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
             },
           ),
         ),
-        bottomNavigationBar: addButton(),
+        bottomNavigationBar: nextButton(),
       ),
     );
   }
