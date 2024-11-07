@@ -6,6 +6,7 @@ class DataTableCreateState extends Equatable {
   final String? selectedTerminal;
   final int? selectedTerminalId;
   final String? selectedTool;
+  final String? selectedToolCode;
   final int? selectedToolId;
   final DataTableCreateParam? dataTableCreateParam;
   final bool isSubmitting;
@@ -18,6 +19,7 @@ class DataTableCreateState extends Equatable {
     this.selectedTerminal,
     this.selectedTerminalId,
     this.selectedTool,
+    this.selectedToolCode,
     this.selectedToolId,
     this.dataTableCreateParam,
     this.isSubmitting = false,
@@ -32,6 +34,7 @@ class DataTableCreateState extends Equatable {
       selectedTerminal: null,
       selectedTerminalId: null,
       selectedTool: null,
+      selectedToolCode: null,
       selectedToolId: null,
       dataTableCreateParam: null,
       isSubmitting: false,
@@ -46,6 +49,7 @@ class DataTableCreateState extends Equatable {
     String? selectedTerminal,
     int? selectedTerminalId,
     String? selectedTool,
+    String? selectedToolCode,
     int? selectedToolId,
     DataTableCreateParam? dataTableCreateParam,
     bool? isSubmitting,
@@ -58,6 +62,7 @@ class DataTableCreateState extends Equatable {
       selectedTerminal: selectedTerminal ?? this.selectedTerminal,
       selectedTerminalId: selectedTerminalId ?? this.selectedTerminalId,
       selectedTool: selectedTool ?? this.selectedTool,
+      selectedToolCode: selectedToolCode ?? this.selectedToolCode,
       selectedToolId: selectedToolId ?? this.selectedToolId,
       dataTableCreateParam: dataTableCreateParam ?? this.dataTableCreateParam,
       isSubmitting: isSubmitting ?? this.isSubmitting,
@@ -73,6 +78,7 @@ class DataTableCreateState extends Equatable {
         selectedTerminal,
         selectedTerminalId,
         selectedTool,
+        selectedToolCode,
         selectedToolId,
         dataTableCreateParam,
         isSubmitting,

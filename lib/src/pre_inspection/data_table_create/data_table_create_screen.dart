@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sigap_mobile/common/component/custom_date_picker.dart';
 import 'package:sigap_mobile/common/component/custom_navigator.dart';
 import 'package:sigap_mobile/common/helper/constant.dart';
 import 'package:sigap_mobile/generated/assets.dart';
@@ -85,11 +86,12 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
           return InkWell(
             onTap: () async {
               log("SELECTED TOOL : ${state.selectedTool}");
+              log("SELECTED TOOL CODE : ${state.selectedToolCode}");
               if (state.selectedDate != null && state.selectedToolId != null) {
                 final bloc = context.read<DataTableCreateBloc>();
                 var data = DataTableCreateParam(
                   assetId: state.selectedToolId,
-                  assetCategoryCode: 'GSU',
+                  assetCategoryCode: state.selectedToolCode,
                   dateDoc: DateFormat("yyyy-MM-dd HH:mm:ss")
                       .format(state.selectedDate ?? DateTime.now())
                       .toString(),
@@ -232,12 +234,15 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                             onTap: () async {
                               if (!widget.isEdit) {
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2101),
-                                );
+                                DateTime? pickedDate =
+                                    await CustomDatePicker.pickDateAndTime(
+                                        context, DateTime.now());
+                                // await showDatePicker(
+                                //   context: context,
+                                //   initialDate: DateTime.now(),
+                                //   firstDate: DateTime(2000),
+                                //   lastDate: DateTime(2101),
+                                // );
                                 if (pickedDate != null) {
                                   dateTimeC.text =
                                       Utils.convertDateddMMMMyyyyHHmmss(

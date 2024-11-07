@@ -51,6 +51,7 @@ class DataTableCreateBloc
             selectedTerminal: terminalName,
             selectedTerminalId: terminalId,
             selectedTool: resultData?.assetName,
+            selectedToolCode: resultData?.assetCategoryCode,
             selectedToolId: resultData?.assetId,
           ));
         } else {
@@ -73,7 +74,8 @@ class DataTableCreateBloc
 
     on<ToolSelected>((event, emit) {
       emit(state.copyWith(
-          selectedTool: 'GSU' /*event.tool.name*/,
+          selectedTool: event.tool.name,
+          selectedToolCode: event.tool.jenisAssetCode,
           selectedToolId: event.tool.id));
     });
 

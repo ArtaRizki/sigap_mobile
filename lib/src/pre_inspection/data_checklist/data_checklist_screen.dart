@@ -262,6 +262,7 @@ class DataChecklistScreen extends StatelessWidget {
                 onTap: () async {
                   if (state2 is DataChecklistLoaded) {
                     log("SELECTED TOOL : ${state.selectedTool}");
+                    log("SELECTED TOOL CODE : ${state.selectedToolCode}");
                     final bloc = context.read<DataTableCreateBloc>();
                     bloc.add(
                       SendForm(
