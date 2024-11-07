@@ -39,10 +39,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           prefs.setString(Constant.kSetPrefToken, loginResponse.data.token);
           prefs.setString(
               Constant.kSetPrefCentraToken, loginResponse.data.tokenCentra);
+          prefs.setInt(Constant.kSetPrefIspusat, loginResponse.data.isPusat);
           prefs.setString(
               Constant.kSetPrefCompany, loginResponse.data.companyName);
           prefs.setInt(
               Constant.kSetPrefCompanyId, loginResponse.data.companyId);
+          prefs.setString(
+              Constant.kSetPrefCabang, loginResponse.data.cabangName);
+          prefs.setInt(Constant.kSetPrefCabangId, loginResponse.data.cabangId);
           emit(state.copyWith(
             isSuccess: true,
             isSubmitting: false,

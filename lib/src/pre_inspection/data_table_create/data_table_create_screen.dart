@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigap_mobile/common/component/custom_navigator.dart';
 import 'package:sigap_mobile/common/helper/constant.dart';
 import 'package:sigap_mobile/generated/assets.dart';
@@ -20,6 +21,11 @@ import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_cre
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_event.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_param.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_state.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/terminal/terminal_response.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/terminal/terminal_search_bloc.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/terminal/terminal_search_sheet.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/terminal/terminal_search_state.dart'
+    as ts;
 import 'package:sigap_mobile/utils/utils.dart';
 
 class DataTableCreateScreen extends StatefulWidget {
@@ -34,6 +40,20 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
   TextEditingController dateTimeC = TextEditingController();
   TextEditingController terminalC = TextEditingController();
   TextEditingController toolC = TextEditingController();
+  int? isPusat;
+
+  @override
+  void initState() {
+    getIspusat();
+    super.initState();
+  }
+
+  getIspusat() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isPusat = prefs.getInt(Constant.kSetPrefIspusat);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     PreferredSizeWidget appBar() {
@@ -74,6 +94,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                       .format(state.selectedDate ?? DateTime.now())
                       .toString(),
                   docType: 'OPR',
+                  cabangId: state.selectedTerminalId,
                 );
                 bloc.add(SubmitForm(data));
                 //sementara
@@ -123,6 +144,22 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
       );
     }
 
+    Future<TerminalResponseData?> _showTerminalSearchSheet(
+        BuildContext context, TerminalSearchBloc bloc) async {
+      return await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: TerminalSearchSheet(bloc),
+          );
+        },
+      );
+    }
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<DataTableCreateBloc>(
@@ -130,16 +167,18 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
             if (widget.isEdit)
               return DataTableCreateBloc()
                 ..add(InitEditForm(widget.data?.id ?? 0));
-            return DataTableCreateBloc()..add(InitForm());
+            return DataTableCreateBloc()..add(InitForm(isPusat == 1));
           },
         ),
         BlocProvider<AssetSearchBloc>(create: (context) => AssetSearchBloc()),
+        BlocProvider<TerminalSearchBloc>(
+            create: (context) => TerminalSearchBloc()),
       ],
       child: Scaffold(
         appBar: appBar(),
         body: BlocListener<DataTableCreateBloc, DataTableCreateState>(
           listener: (context, state) {
-            if (state.selectedTerminal != null)
+            if (state.selectedTerminal != null && isPusat == 0)
               terminalC.text = state.selectedTerminal ?? '';
             if (state.selectedToolId != null) {
               // dateTimeC.text = Utils.convertDateddMMMMyyyyHHmmss(
@@ -258,33 +297,59 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                                     fontSize: 12, color: Constant.grayColor)),
                           ),
                           SizedBox(height: 8),
-                          TextField(
-                            enabled: false,
-                            controller: terminalC,
-                            onChanged: (value) {
-                              // context
-                              //     .read<DataTableCreateBloc>()
-                              //     .add(TerminalSelected(value));
+                          BlocListener<TerminalSearchBloc,
+                              ts.TerminalSearchState>(
+                            listener: (context, state) {
+                              if (state is ts.TerminalSelected &&
+                                  state.terminalSelected != null)
+                                context.read<DataTableCreateBloc>().add(
+                                    TerminalSelected(state.terminalSelected!));
                             },
-                            decoration: InputDecoration(
-                              suffixIcon: Image.asset(Assets.iconsIcSearch),
-                              contentPadding: EdgeInsets.all(10),
-                              hintText: 'Pilih Terminal',
-                              hintStyle: TextStyle(color: Color(0xffB9B9B9)),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide:
-                                    BorderSide(color: Color(0xffB9B9B9)),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide:
-                                    BorderSide(color: Color(0xffB9B9B9)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide:
-                                    BorderSide(color: Constant.primaryColor),
+                            child: TextField(
+                              enabled: !widget.isEdit,
+                              controller: terminalC,
+                              onChanged: (value) {
+                                // context
+                                //     .read<DataTableCreateBloc>()
+                                //     .add(TerminalSelected(value));
+                              },
+                              onTap: () async {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                var _assetSearchBloc =
+                                    context.read<TerminalSearchBloc>();
+
+                                var selectedTerminal =
+                                    await _showTerminalSearchSheet(
+                                        context, _assetSearchBloc);
+                                log("ASSET : ${selectedTerminal?.name}");
+                                if (selectedTerminal != null) {
+                                  terminalC.text = selectedTerminal.name ?? '';
+                                  context
+                                      .read<DataTableCreateBloc>()
+                                      .add(TerminalSelected(selectedTerminal));
+                                }
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              decoration: InputDecoration(
+                                suffixIcon: Image.asset(Assets.iconsIcSearch),
+                                contentPadding: EdgeInsets.all(10),
+                                hintText: 'Pilih Terminal',
+                                hintStyle: TextStyle(color: Color(0xffB9B9B9)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      BorderSide(color: Color(0xffB9B9B9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      BorderSide(color: Color(0xffB9B9B9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      BorderSide(color: Constant.primaryColor),
+                                ),
                               ),
                             ),
                           ),
@@ -318,7 +383,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                                     .add(ToolSelected(state.assetSelected!));
                             },
                             child: TextField(
-                              enabled: !widget.isEdit,
+                              enabled: !widget.isEdit && isPusat == 1,
                               controller: toolC,
                               onChanged: (value) {},
                               onTap: () async {

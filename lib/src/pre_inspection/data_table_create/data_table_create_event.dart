@@ -2,13 +2,20 @@ import 'package:equatable/equatable.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_checklist/data_checklist_response.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/asset_search/asset_response.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_param.dart';
+import 'package:sigap_mobile/src/pre_inspection/data_table_create/terminal/terminal_response.dart';
 
 abstract class DataTableCreateEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class InitForm extends DataTableCreateEvent {}
+class InitForm extends DataTableCreateEvent {
+  final bool ispusat;
+  InitForm(this.ispusat);
+
+  @override
+  List<Object> get props => [ispusat];
+}
 
 class InitEditForm extends DataTableCreateEvent {
   final int id;
@@ -31,7 +38,7 @@ class DateSelected extends DataTableCreateEvent {
 }
 
 class TerminalSelected extends DataTableCreateEvent {
-  final String terminal;
+  final TerminalResponseData terminal;
 
   TerminalSelected(this.terminal);
 

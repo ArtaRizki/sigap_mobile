@@ -486,6 +486,9 @@ class Constant {
   static const String kSetPrefCentraToken = "centra_token";
   static const String kSetPrefCompany = "company";
   static const String kSetPrefCompanyId = "company_id";
+  static const String kSetPrefCabang = "cabang";
+  static const String kSetPrefCabangId = "cabang_id";
+  static const String kSetPrefIspusat = "is_pusat";
   static const String kSetPrefId = "id";
   static const String kSetPrefFcmToken = "fcmToken";
   static const String kSetPrefName = "name";

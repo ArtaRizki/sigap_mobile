@@ -55,6 +55,7 @@ class DataTableCreateParam {
   "asset_category_code": "GSU",
   "date_doc": "2024-10-30 14:57:50",
   "doc_type": "OPR",
+  "cabang_id": 35,
   "item": [
     {
       "id": 332,
@@ -72,6 +73,7 @@ class DataTableCreateParam {
   String? assetCategoryCode;
   String? dateDoc;
   String? docType;
+  int? cabangId;
   List<DataTableCreateParamItem?>? item;
 
   DataTableCreateParam({
@@ -79,6 +81,7 @@ class DataTableCreateParam {
     this.assetCategoryCode,
     this.dateDoc,
     this.docType,
+    this.cabangId,
     this.item,
   });
   DataTableCreateParam.fromJson(Map<String, dynamic> json) {
@@ -86,6 +89,7 @@ class DataTableCreateParam {
     assetCategoryCode = json['asset_category_code']?.toString();
     dateDoc = json['date_doc']?.toString();
     docType = json['doc_type']?.toString();
+    cabangId = json['cabang_id']?.toInt();
     if (json['item'] != null) {
       final v = json['item'];
       final arr0 = <DataTableCreateParamItem>[];
@@ -101,6 +105,7 @@ class DataTableCreateParam {
     data['asset_category_code'] = assetCategoryCode;
     data['date_doc'] = dateDoc;
     data['doc_type'] = docType;
+    data['cabang_id'] = cabangId;
     if (item != null) {
       final v = item;
       final arr0 = [];

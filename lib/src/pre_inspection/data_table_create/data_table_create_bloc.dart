@@ -22,12 +22,14 @@ class DataTableCreateBloc
     on<InitForm>((event, emit) async {
       try {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        var terminalName = prefs.getString(Constant.kSetPrefCompany);
-        var terminalId = prefs.getInt(Constant.kSetPrefCompanyId);
-        emit(state.copyWith(
-          selectedTerminal: terminalName,
-          selectedTerminalId: terminalId,
-        ));
+        if (!event.ispusat) {
+          var terminalName = prefs.getString(Constant.kSetPrefCabang);
+          var terminalId = prefs.getInt(Constant.kSetPrefCabangId);
+          emit(state.copyWith(
+            selectedTerminal: terminalName,
+            selectedTerminalId: terminalId,
+          ));
+        }
       } catch (_) {
         emit(state.copyWith(isFailure: true, isSubmitting: false));
       }
@@ -63,7 +65,10 @@ class DataTableCreateBloc
     });
 
     on<TerminalSelected>((event, emit) {
-      emit(state.copyWith(selectedTerminal: event.terminal));
+      emit(state.copyWith(
+        selectedTerminal: event.terminal.name,
+        selectedTerminalId: event.terminal.id,
+      ));
     });
 
     on<ToolSelected>((event, emit) {

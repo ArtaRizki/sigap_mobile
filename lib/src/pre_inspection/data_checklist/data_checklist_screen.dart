@@ -270,6 +270,7 @@ class DataChecklistScreen extends StatelessWidget {
                               dataTableCreateParam.assetCategoryCode,
                           dateDoc: dataTableCreateParam.dateDoc,
                           docType: 'OPR',
+                          cabangId: dataTableCreateParam.cabangId,
                         ),
                         state2.checklists,
                       ),
