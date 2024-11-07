@@ -342,6 +342,9 @@ class Utils {
   static convertDateddMMMMyyyy(String date) {
     return DateFormat("dd MMMM yyyy").format(DateTime.parse(date));
   }
+  static convertDateddMMMMyyyyHHmmss(String date) {
+    return DateFormat("dd MMMM yyyy HH:mm:ss").format(DateTime.parse(date));
+  }
 
   // dismiss loading
   static dismissLoading() async {

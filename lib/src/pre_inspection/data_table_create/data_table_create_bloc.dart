@@ -150,7 +150,7 @@ class DataTableCreateBloc
   Future<http.Response> _sendData(DataTableCreateParam param) async {
     var url =
         'https://sigap-api.erdata.id/api/Mobile/PreInspectionMobile/Create';
-    var body = {'data': param.toJson()};
+    var body = {'data': jsonEncode(param)};
 
     List<http.MultipartFile> files = [];
     for (int i = 0; i < (param.item?.length ?? 0); i++) {

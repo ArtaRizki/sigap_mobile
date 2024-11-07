@@ -142,8 +142,8 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
             if (state.selectedTerminal != null)
               terminalC.text = state.selectedTerminal ?? '';
             if (state.selectedToolId != null) {
-              dateTimeC.text =
-                  Utils.convertDateddMMMMyyyy(state.selectedDate.toString());
+              // dateTimeC.text = Utils.convertDateddMMMMyyyyHHmmss(
+              //     state.selectedDate.toString());
               toolC.text = state.selectedTool ?? '';
             }
 
@@ -200,8 +200,9 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                                   lastDate: DateTime(2101),
                                 );
                                 if (pickedDate != null) {
-                                  dateTimeC.text = Utils.convertDateddMMMMyyyy(
-                                      '${pickedDate}');
+                                  dateTimeC.text =
+                                      Utils.convertDateddMMMMyyyyHHmmss(
+                                          '${pickedDate}');
                                   context
                                       .read<DataTableCreateBloc>()
                                       .add(DateSelected(pickedDate));
