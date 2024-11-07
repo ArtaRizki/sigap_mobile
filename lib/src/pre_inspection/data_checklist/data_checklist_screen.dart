@@ -9,6 +9,7 @@ import 'package:sigap_mobile/common/component/custom_image_picker.dart';
 import 'package:sigap_mobile/common/component/custom_navigator.dart';
 import 'package:sigap_mobile/common/helper/constant.dart';
 import 'package:sigap_mobile/generated/assets.dart';
+import 'package:sigap_mobile/src/home/home_screen.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_checklist/data_checklist_bloc.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_checklist/data_checklist_event.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_checklist/data_checklist_response.dart';
@@ -318,7 +319,7 @@ class DataChecklistScreen extends StatelessWidget {
           child: BlocListener<DataTableCreateBloc, DataTableCreateState>(
             listener: (context, state) {
               if (state.isSuccessSend)
-                CusNav.nPushAndRemoveUntil(context, DataTableScreen());
+                CusNav.nPushAndRemoveUntil(context, HomeScreen());
             },
             child: BlocBuilder<DataChecklistBloc, DataChecklistState>(
               builder: (context, state) {

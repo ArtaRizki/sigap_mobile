@@ -126,6 +126,7 @@ class DataTableCreateBloc
             dataTableCreateParam: param,
             isSubmitting: false,
             isSuccess: true,
+            isSuccessSend: true,
           ));
         } else {
           emit(state.copyWith(
