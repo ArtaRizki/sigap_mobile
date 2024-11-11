@@ -19,6 +19,7 @@ import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_cre
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_event.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_param.dart';
 import 'package:sigap_mobile/src/pre_inspection/data_table_create/data_table_create_state.dart';
+import 'package:sigap_mobile/utils/utils.dart';
 
 class DataChecklistScreen extends StatelessWidget {
   final DataTableCreateParam dataTableCreateParam;
@@ -260,7 +261,7 @@ class DataChecklistScreen extends StatelessWidget {
             builder: (context2, state2) {
               return InkWell(
                 onTap: () async {
-                  if (state2 is DataChecklistLoaded) {
+                  if (state2 is DataChecklistLoaded && !state.isSubmitting) {
                     log("SELECTED TOOL : ${state.selectedTool}");
                     log("SELECTED TOOL CODE : ${state.selectedToolCode}");
                     final bloc = context.read<DataTableCreateBloc>();
@@ -285,7 +286,10 @@ class DataChecklistScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Constant.primaryColor,
+                      color:
+                          state2 is DataChecklistLoaded && !state.isSubmitting
+                              ? Constant.primaryColor
+                              : Constant.grayColor,
                     ),
                     padding: EdgeInsets.all(16),
                     child: Text(
@@ -318,9 +322,16 @@ class DataChecklistScreen extends StatelessWidget {
           margin: EdgeInsets.only(top: 12),
           color: Colors.white,
           child: BlocListener<DataTableCreateBloc, DataTableCreateState>(
-            listener: (context, state) {
-              if (state.isSuccessSend)
+            listener: (context, state) async {
+              if (state.isSubmitting) {
+                await Utils.showLoading();
+              }
+              if (state.isSuccessSend) {
+                await Utils.dismissLoading();
+                await Utils.showSuccess(msg: 'Sukses Input Data Baru');
+                await Future.delayed(Duration(seconds: 2));
                 CusNav.nPushAndRemoveUntil(context, HomeScreen());
+              }
             },
             child: BlocBuilder<DataChecklistBloc, DataChecklistState>(
               builder: (context, state) {
@@ -338,7 +349,7 @@ class DataChecklistScreen extends StatelessWidget {
                             Image.asset(Assets.iconsIcInspection),
                             Constant.xSizedBox8,
                             Text(
-                              checklist?.checkName ?? '',
+                              checklist?.checkSubName ?? '',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

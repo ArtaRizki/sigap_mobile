@@ -17,6 +17,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String username = '';
+  String role = '';
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    username = prefs.getString(Constant.kSetPrefName) ?? '';
+    role = prefs.getString(Constant.kSetPrefDivision) ?? '';
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget header() {
@@ -54,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Saimin',
+                        username,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -63,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Constant.xSizedBox4,
                       Text(
-                        'Operator Alat',
+                        role,
                         style: TextStyle(
                           color: Colors.white,
                         ),

@@ -190,12 +190,12 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
 
             if (state.isFailure)
               Utils.showFailed(msg: "Submit failed. Please try again.");
-            if (state.isSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Submit Successful')),
-              );
-              // CusNav.nPushReplace(context, HomeScreen());
-            }
+            // if (state.isSuccess) {
+            //   ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(content: Text('Submit Successful')),
+            //   );
+            // CusNav.nPushReplace(context, HomeScreen());
+            // }
           },
           child: BlocBuilder<DataTableCreateBloc, DataTableCreateState>(
             builder: (context, state) {
@@ -311,7 +311,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                                     TerminalSelected(state.terminalSelected!));
                             },
                             child: TextField(
-                              enabled: !widget.isEdit,
+                              enabled: !widget.isEdit && isPusat == 1,
                               controller: terminalC,
                               onChanged: (value) {
                                 // context
@@ -388,7 +388,7 @@ class _DataTableCreateScreenState extends State<DataTableCreateScreen> {
                                     .add(ToolSelected(state.assetSelected!));
                             },
                             child: TextField(
-                              enabled: !widget.isEdit && isPusat == 1,
+                              enabled: !widget.isEdit,
                               controller: toolC,
                               onChanged: (value) {},
                               onTap: () async {

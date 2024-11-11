@@ -59,8 +59,9 @@ class AssetSearchBloc extends Bloc<AssetSearchEvent, AssetSearchState> {
 
   Future<List<AssetResponseData?>> fetchAssetSearch(
       {int page = 1, String search = ''}) async {
-    final response =
-        await BaseController().get('$baseUrl?page=$page&search=$search');
+    var url = 'baseUrl?page=$page';
+    if (search.trim() != '') url = '$url&search=$search';
+    final response = await BaseController().get('$baseUrl');
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

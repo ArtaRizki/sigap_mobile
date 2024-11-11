@@ -80,7 +80,7 @@ class DataTableCreateBloc
     });
 
     on<SubmitForm>((event, emit) async {
-      emit(state.copyWith(isSubmitting: true));
+      emit(state.copyWith(isSubmitting: false));
 
       // Simulate a network call (Replace this with the actual API call in production)
       await Future.delayed(Duration(seconds: 2));
@@ -123,7 +123,7 @@ class DataTableCreateBloc
       // On success, yield a new state
       try {
         final response = await _sendData(param);
-        if (response.statusCode == 200) {
+        if (response.statusCode == 200 || response.statusCode == 201) {
           emit(state.copyWith(
             dataTableCreateParam: param,
             isSubmitting: false,

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:sigap_mobile/src/login/login-response.dart';
+import 'package:sigap_mobile/src/login/login_response.dart';
 
 class LoginState extends Equatable {
   final String username;

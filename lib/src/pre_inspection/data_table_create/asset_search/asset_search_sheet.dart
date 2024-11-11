@@ -121,9 +121,11 @@ class _AssetSearchSheetState extends State<AssetSearchSheet> {
                           );
                         } else {
                           // Display a loading indicator at the bottom when fetching more
-                          return state.hasMoreData
-                              ? Center(child: CircularProgressIndicator())
-                              : SizedBox();
+                          return
+                              // state.hasMoreData
+                              //     ? Center(child: CircularProgressIndicator())
+                              //     :
+                              SizedBox();
                         }
                       },
                     );

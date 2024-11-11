@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigap_mobile/common/base/base_controller.dart';
 import 'package:sigap_mobile/common/helper/constant.dart';
-import 'package:sigap_mobile/src/login/login-response.dart';
+import 'package:sigap_mobile/src/login/login_response.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -36,26 +36,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           final data = json.decode(response.body);
           final loginResponse = LoginResponse.fromJson(data);
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString(Constant.kSetPrefToken, loginResponse.data.token);
           prefs.setString(
-              Constant.kSetPrefCentraToken, loginResponse.data.tokenCentra);
-          prefs.setInt(Constant.kSetPrefIspusat, loginResponse.data.isPusat);
-          prefs.setString(
-              Constant.kSetPrefCompany, loginResponse.data.companyName);
+              Constant.kSetPrefToken, loginResponse.data.token ?? '');
+          prefs.setString(Constant.kSetPrefCentraToken,
+              loginResponse.data.tokenCentra ?? '');
           prefs.setInt(
-              Constant.kSetPrefCompanyId, loginResponse.data.companyId);
+              Constant.kSetPrefIspusat, loginResponse.data.isPusat ?? 0);
           prefs.setString(
-              Constant.kSetPrefCabang, loginResponse.data.cabangName);
-          prefs.setInt(Constant.kSetPrefCabangId, loginResponse.data.cabangId);
+              Constant.kSetPrefCompany, loginResponse.data.companyName ?? '');
+          prefs.setInt(
+              Constant.kSetPrefCompanyId, loginResponse.data.companyId ?? 0);
+          prefs.setString(
+              Constant.kSetPrefCabang, loginResponse.data.cabangName ?? '');
+          prefs.setInt(
+              Constant.kSetPrefCabangId, loginResponse.data.cabangId ?? 0);
+          prefs.setString(
+              Constant.kSetPrefName, loginResponse.data.username ?? '');
+          prefs.setString(
+              Constant.kSetPrefDivision, loginResponse.data.jabatan ?? '');
           emit(state.copyWith(
             isSuccess: true,
             isSubmitting: false,
+            isFailure: false,
             loginResponse: loginResponse, // Update state with the response data
           ));
         } else {
           emit(state.copyWith(isFailure: true, isSubmitting: false));
         }
       } catch (_) {
+        log("ERROR CATCH $_");
         emit(state.copyWith(isFailure: true, isSubmitting: false));
       }
     });

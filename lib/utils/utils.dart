@@ -167,7 +167,7 @@ class Utils {
           Transform.scale(
             scale: 1.2,
             child: Lottie.asset(
-              'assets/lottie/success2.json',
+              'assets/lotties/success2.json',
               repeat: false,
               width: 100,
               height: 100,
@@ -204,7 +204,7 @@ class Utils {
           Transform.scale(
             scale: 1.2,
             child: Lottie.asset(
-              'assets/lottie/failed.json',
+              'assets/lotties/failed.json',
               repeat: false,
               width: 100,
               height: 100,
@@ -342,6 +342,7 @@ class Utils {
   static convertDateddMMMMyyyy(String date) {
     return DateFormat("dd MMMM yyyy").format(DateTime.parse(date));
   }
+
   static convertDateddMMMMyyyyHHmmss(String date) {
     return DateFormat("dd MMMM yyyy HH:mm:ss").format(DateTime.parse(date));
   }
